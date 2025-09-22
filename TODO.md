@@ -1,7 +1,7 @@
 - [x] Instalar GitHub CLI
-- [ ] Verificar e inicializar git si es necesario
-- [ ] Agregar archivos al repositorio
-- [ ] Hacer commit inicial
-- [ ] Autenticar con GitHub
-- [ ] Crear repositorio en GitHub
-- [ ] Subir el proyecto
+- [x] Verificar e inicializar git si es necesario
+- [x] Agregar archivos al repositorio
+- [x] Hacer commit inicial
+- [x] Autenticar con GitHub
+- [x] Crear repositorio en GitHub
+- [x] Subir el proyecto
