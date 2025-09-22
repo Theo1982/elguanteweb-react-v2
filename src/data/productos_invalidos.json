@@ -1,0 +1,117 @@
+[
+  {
+    "key": "ESPONJA COCINA SUAVE TEFLON-10120",
+    "producto": {
+      "nombre": "ESPONJA COCINA SUAVE TEFLON",
+      "precio": 1300,
+      "stock": 12,
+      "categoria": "",
+      "descripcion": "",
+      "imagen": "",
+      "handle": "esponja-cocina-suave-teflon",
+      "ref": "10120",
+      "costo": 604,
+      "codigoBarras": "",
+      "vendidoPorPeso": false,
+      "fuente": "export_items_full.json",
+      "fechaNormalizacion": "2025-09-18T19:03:33.783Z",
+      "activo": true
+    },
+    "errores": [
+      "Categoría faltante"
+    ],
+    "fuente": "export_items_full.json"
+  },
+  {
+    "key": "GUANTE MOTEADO ALGODON-10041",
+    "producto": {
+      "nombre": "GUANTE MOTEADO ALGODON",
+      "precio": 2500,
+      "stock": 30,
+      "categoria": "",
+      "descripcion": "",
+      "imagen": "",
+      "handle": "guante-moteado-algodon",
+      "ref": "10041",
+      "costo": 778,
+      "codigoBarras": "",
+      "vendidoPorPeso": false,
+      "fuente": "export_items_full.json",
+      "fechaNormalizacion": "2025-09-18T19:03:33.783Z",
+      "activo": true
+    },
+    "errores": [
+      "Categoría faltante"
+    ],
+    "fuente": "export_items_full.json"
+  },
+  {
+    "key": "PLATEADA ACERO SINA COMBINADA-10112",
+    "producto": {
+      "nombre": "PLATEADA ACERO SINA COMBINADA",
+      "precio": 1500,
+      "stock": 5,
+      "categoria": "",
+      "descripcion": "",
+      "imagen": "",
+      "handle": "plateada-acero-sina-combinada",
+      "ref": "10112",
+      "costo": 694,
+      "codigoBarras": "",
+      "vendidoPorPeso": false,
+      "fuente": "export_items_full.json",
+      "fechaNormalizacion": "2025-09-18T19:03:33.783Z",
+      "activo": true
+    },
+    "errores": [
+      "Categoría faltante"
+    ],
+    "fuente": "export_items_full.json"
+  },
+  {
+    "key": "SECADOR ROJO X 50 CM-10079",
+    "producto": {
+      "nombre": "SECADOR ROJO X 50 CM",
+      "precio": 4300,
+      "stock": 1,
+      "categoria": "",
+      "descripcion": "",
+      "imagen": "",
+      "handle": "secador-rojo-x-50-cm",
+      "ref": "10079",
+      "costo": 2156,
+      "codigoBarras": "",
+      "vendidoPorPeso": false,
+      "fuente": "export_items_full.json",
+      "fechaNormalizacion": "2025-09-18T19:03:33.783Z",
+      "activo": true
+    },
+    "errores": [
+      "Categoría faltante"
+    ],
+    "fuente": "export_items_full.json"
+  },
+  {
+    "key": "TOALLITAS FEM-10206",
+    "producto": {
+      "nombre": "TOALLITAS FEM",
+      "precio": 0,
+      "stock": 0,
+      "categoria": "VARIOS",
+      "descripcion": "",
+      "imagen": "",
+      "handle": "toallitas-fem",
+      "ref": "10206",
+      "costo": 0,
+      "codigoBarras": "",
+      "vendidoPorPeso": false,
+      "fuente": "export_items_full.json",
+      "fechaNormalizacion": "2025-09-18T19:03:33.783Z",
+      "activo": true
+    },
+    "errores": [
+      "Precio inválido"
+    ],
+    "fuente": "export_items_full.json"
+  }
+]

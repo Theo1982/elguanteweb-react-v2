@@ -1,0 +1,313 @@
+[
+  {
+    "Handle": "agata-escoba",
+    "REF": "10046",
+    "Nombre": "AGATA ESCOBA",
+    "Categoria": "ESCOBAS",
+    "Descripción": "",
+    "Precio [El Guante]": "5300.00",
+    "En inventario [El Guante]": "4.000"
+  },
+  {
+    "Handle": "alcohol-etílico",
+    "REF": "10035",
+    "Nombre": "ALCOHOL ETÍLICO",
+    "Categoria": "LIMPIEZA Y DESINFECCIÓN",
+    "Descripción": "",
+    "Precio [El Guante]": "3200.00",
+    "En inventario [El Guante]": "15.000",
+    "imagen": "/img/lavandina.jpg"
+  },
+  {
+    "Handle": "alcohol-gel",
+    "REF": "10034",
+    "Nombre": "ALCOHOL GEL",
+    "Categoria": "LIMPIEZA Y DESINFECCIÓN",
+    "Descripción": "",
+    "Precio [El Guante]": "5000.00",
+    "En inventario [El Guante]": "2.000"
+  },
+  {
+    "Handle": "algodon-x-100-gr",
+    "REF": "10204",
+    "Nombre": "ALGODON X 100 GR",
+    "Categoria": "VARIOS",
+    "Descripción": "",
+    "Precio [El Guante]": "1500.00",
+    "En inventario [El Guante]": "4.000"
+  },
+  {
+    "Handle": "alimento-gato",
+    "REF": "10194",
+    "Nombre": "ALIMENTO GATO",
+    "Categoria": "MASCOTAS",
+    "Descripción": "",
+    "Precio [El Guante]": "3000.00",
+    "En inventario [El Guante]": "0.000"
+  },
+  {
+    "Handle": "alimento-perro",
+    "REF": "10195",
+    "Nombre": "ALIMENTO PERRO",
+    "Categoria": "MASCOTAS",
+    "Descripción": "",
+    "Precio [El Guante]": "2000.00",
+    "En inventario [El Guante]": "0.000",
+    "imagen": "/img/jabon_ropa.jpg"
+  },
+  {
+    "Handle": "ambiente-aero-smell-fresh",
+    "REF": "10179",
+    "Nombre": "AMBIENTE AERO SMELL FRESH",
+    "Categoria": "PERFUMINAS / AROMA HOGAR",
+    "Descripción": "",
+    "Precio [El Guante]": "4700.00",
+    "En inventario [El Guante]": "1.000"
+  },
+  {
+    "Handle": "anilina",
+    "REF": "10207",
+    "Nombre": "ANILINA",
+    "Categoria": "VARIOS",
+    "Descripción": "",
+    "Precio [El Guante]": "2700.00",
+    "En inventario [El Guante]": "6.000"
+  },
+  {
+    "Handle": "antorchita-horno",
+    "REF": "10215",
+    "Nombre": "ANTORCHITA HORNO",
+    "Categoria": "VARIOS",
+    "Descripción": "",
+    "Precio [El Guante]": "700.00",
+    "En inventario [El Guante]": "20.000"
+  },
+  {
+    "Handle": "argentina-escobillon",
+    "REF": "10049",
+    "Nombre": "ARGENTINA ESCOBILLON",
+    "Categoria": "ESCOBAS",
+    "Descripción": "",
+    "Precio [El Guante]": "4500.00",
+    "En inventario [El Guante]": "4.000"
+  },
+  {
+    "Handle": "azufre-canuto",
+    "REF": "10197",
+    "Nombre": "AZUFRE CANUTO",
+    "Categoria": "VARIOS",
+    "Descripción": "",
+    "Precio [El Guante]": "150.00",
+    "En inventario [El Guante]": "30.000"
+  },
+  {
+    "Handle": "bactericida",
+    "REF": "10122",
+    "Nombre": "BACTERICIDA",
+    "Categoria": "PILETA",
+    "Descripción": "",
+    "Precio [El Guante]": "7900.00",
+    "En inventario [El Guante]": "2.000"
+  },
+  {
+    "Handle": "balde-16-l-sina",
+    "REF": "10221",
+    "Nombre": "BALDE 16 L SINA",
+    "Categoria": "PLASTICOS",
+    "Descripción": "",
+    "Precio [El Guante]": "6300.00",
+    "En inventario [El Guante]": "3.000"
+  },
+  {
+    "Handle": "balde-c/-escurridor-sino-15-l",
+    "REF": "10134",
+    "Nombre": "BALDE C/ ESCURRIDOR SINO 15 L",
+    "Categoria": "PLASTICOS",
+    "Descripción": "",
+    "Precio [El Guante]": "10300.00",
+    "En inventario [El Guante]": "1.000"
+  },
+  {
+    "Handle": "balde-sina-10-l-manija-plastica",
+    "REF": "10131",
+    "Nombre": "BALDE SINA 10 L MANIJA PLASTICA",
+    "Categoria": "PLASTICOS",
+    "Descripción": "",
+    "Precio [El Guante]": "3900.00",
+    "En inventario [El Guante]": "4.000"
+  },
+  {
+    "Handle": "balde-sina-14-l-manija-plastica",
+    "REF": "10133",
+    "Nombre": "BALDE SINA 14 L MANIJA PLASTICA",
+    "Categoria": "PLASTICOS",
+    "Descripción": "",
+    "Precio [El Guante]": "4200.00",
+    "En inventario [El Guante]": "0.000"
+  },
+  {
+    "Handle": "balde-sina-9-l-manija-plastica",
+    "REF": "10130",
+    "Nombre": "BALDE SINA 9 L MANIJA PLASTICA",
+    "Categoria": "PLASTICOS",
+    "Descripción": "",
+    "Precio [El Guante]": "3100.00",
+    "En inventario [El Guante]": "3.000"
+  },
+  {
+    "Handle": "balde-sina-super-12-l-manija-plastica",
+    "REF": "10132",
+    "Nombre": "BALDE SINA SUPER 12 L MANIJA PLASTICA",
+    "Categoria": "PLASTICOS",
+    "Descripción": "",
+    "Precio [El Guante]": "5200.00",
+    "En inventario [El Guante]": "1.000"
+  },
+  {
+    "Handle": "barrealfombra",
+    "REF": "10044",
+    "Nombre": "BARREALFOMBRA",
+    "Categoria": "ESCOBAS",
+    "Descripción": "",
+    "Precio [El Guante]": "2700.00",
+    "En inventario [El Guante]": "2.000",
+    "imagen": "/img/guante_afelp.jpg"
+  },
+  {
+    "Handle": "barredor-algodon-x-60-cm",
+    "REF": "10088",
+    "Nombre": "BARREDOR ALGODON X 60 CM",
+    "Categoria": "ESCOBAS",
+    "Descripción": "",
+    "Precio [El Guante]": "14000.00",
+    "En inventario [El Guante]": "1.000"
+  },
+  {
+    "Handle": "barrehojas-plast-mediana",
+    "REF": "10055",
+    "Nombre": "BARREHOJAS PLAST MEDIANA",
+    "Categoria": "ESCOBAS",
+    "Descripción": "",
+    "Precio [El Guante]": "2500.00",
+    "En inventario [El Guante]": "2.000"
+  },
+  {
+    "Handle": "barrehojas-profesional",
+    "REF": "10056",
+    "Nombre": "BARREHOJAS PROFESIONAL",
+    "Categoria": "ESCOBAS",
+    "Descripción": "",
+    "Precio [El Guante]": "6000.00",
+    "En inventario [El Guante]": "1.000",
+    "imagen": "/img/barrehojas_profesional.jpg"
+  },
+  {
+    "Handle": "bicarbonato",
+    "REF": "10222",
+    "Nombre": "BICARBONATO",
+    "Categoria": "VARIOS",
+    "Descripción": "",
+    "Precio [El Guante]": "6000.00",
+    "En inventario [El Guante]": "25.000"
+  },
+  {
+    "Handle": "blanqueador-ropa-blanca",
+    "REF": "10024",
+    "Nombre": "BLANQUEADOR ROPA BLANCA",
+    "Categoria": "LIMPIEZA Y DESINFECCIÓN",
+    "Descripción": "",
+    "Precio [El Guante]": "2800.00",
+    "En inventario [El Guante]": "5.000"
+  },
+  {
+    "Handle": "blanqueador-ropa-color",
+    "REF": "10217",
+    "Nombre": "BLANQUEADOR ROPA COLOR",
+    "Categoria": "LIMPIEZA Y DESINFECCIÓN",
+    "Descripción": "",
+    "Precio [El Guante]": "3600.00",
+    "En inventario [El Guante]": "5.000"
+  },
+  {
+    "Handle": "bloque-azul-mochila",
+    "REF": "10031",
+    "Nombre": "BLOQUE AZUL MOCHILA",
+    "Categoria": "LIMPIEZA Y DESINFECCIÓN",
+    "Descripción": "",
+    "Precio [El Guante]": "2700.00",
+    "En inventario [El Guante]": "8.000",
+    "imagen": "/img/detergente.jpg"
+  },
+  {
+    "Handle": "bolsa-agua-caliente",
+    "REF": "10209",
+    "Nombre": "BOLSA AGUA CALIENTE",
+    "Categoria": "VARIOS",
+    "Descripción": "",
+    "Precio [El Guante]": "6000.00",
+    "En inventario [El Guante]": "6.000"
+  },
+  {
+    "Handle": "bolsa-consorcio-60-x-90",
+    "REF": "10091",
+    "Nombre": "BOLSA CONSORCIO 60 X 90",
+    "Categoria": "BOLSAS RESIDUO",
+    "Descripción": "",
+    "Precio [El Guante]": "2300.00",
+    "En inventario [El Guante]": "10.000"
+  },
+  {
+    "Handle": "bolsa-intermedia-maxi-50-x-70",
+    "REF": "10090",
+    "Nombre": "BOLSA INTERMEDIA MAXI 50 X 70",
+    "Categoria": "BOLSAS RESIDUO",
+    "Descripción": "",
+    "Precio [El Guante]": "1300.00",
+    "En inventario [El Guante]": "10.000"
+  },
+  {
+    "Handle": "bolsa-maxi-consorcio-80-x-110",
+    "REF": "10092",
+    "Nombre": "BOLSA MAXI CONSORCIO 80 X 110",
+    "Categoria": "BOLSAS RESIDUO",
+    "Descripción": "",
+    "Precio [El Guante]": "3300.00",
+    "En inventario [El Guante]": "10.000"
+  },
+  {
+    "Handle": "bolsa-maxi-extra-gde-90-x-120",
+    "REF": "10093",
+    "Nombre": "BOLSA MAXI EXTRA GDE 90 X 120",
+    "Categoria": "BOLSAS RESIDUO",
+    "Descripción": "",
+    "Precio [El Guante]": "3400.00",
+    "En inventario [El Guante]": "10.000"
+  },
+  {
+    "Handle": "bolsa-residuo-maxi-45-x-60-cm",
+    "REF": "10089",
+    "Nombre": "BOLSA RESIDUO MAXI 45 X 60 CM",
+    "Categoria": "BOLSAS RESIDUO",
+    "Descripción": "",
+    "Precio [El Guante]": "600.00",
+    "En inventario [El Guante]": "15.000"
+  },
+  {
+    "Handle": "bolsa-verde-consorcio-60-x-90",
+    "REF": "10096",
+    "Nombre": "BOLSA VERDE CONSORCIO 60 X 90",
+    "Categoria": "BOLSAS RESIDUO",
+    "Descripción": "",
+    "Precio [El Guante]": "2100.00",
+    "En inventario [El Guante]": "10.000"
+  },
+  {
+    "Handle": "bolsa-verde-intermedia-50-x-70",
+    "REF": "10095",
+    "Nombre": "BOLSA VERDE INTERMEDIA 50 X 70",
+    "Categoria": "BOLSAS RESIDUO",
+    "Descripción": "",
+    "Precio [El Guante]": "1300.00",
+    "En inventario [El Guante]": "10.000"
+  }
+]

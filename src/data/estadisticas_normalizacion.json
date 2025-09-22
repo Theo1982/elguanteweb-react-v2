@@ -1,0 +1,10 @@
+{
+  "total": 230,
+  "validos": 225,
+  "invalidos": 5,
+  "fuentes": {
+    "productos.json": 0,
+    "export_items_full.json": 191,
+    "fusionado": 34
+  }
+}
