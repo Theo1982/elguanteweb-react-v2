@@ -1,11 +1,23 @@
 // src/pages/AdminUsers.jsx
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { collection, getDocs, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function AdminUsers() {
+  const navigate = useNavigate();
+  const { user, profile, loading: authLoading } = useAuth();
   const [usuarios, setUsuarios] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Verificar role
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user || !profile || profile.role !== "admin") {
+      navigate("/login");
+    }
+  }, [user, profile, authLoading, navigate]);
 
   // 🔄 Cargar todos los usuarios
   const fetchUsuarios = async () => {
