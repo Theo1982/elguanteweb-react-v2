@@ -13,4 +13,4 @@
 - [x] Step 2: Edit Shop.css
 - [x] Step 3: Edit ProductCard.css
 - [x] Step 4: Test locally
-- [ ] Step 5: Commit and push to GitHub
+- [x] Step 5: Commit and push to GitHub
