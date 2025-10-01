@@ -31,9 +31,18 @@ export default function Shop() {
 
   // Actualizar productos mostrados cuando cambian los productos o el término de búsqueda debounced
   useEffect(() => {
-    const filtered = filterProducts(debouncedSearchTerm);
-    setDisplayedProducts(filtered);
-  }, [products, debouncedSearchTerm, filterProducts]);
+    if (!debouncedSearchTerm.trim()) {
+      setDisplayedProducts(products);
+    } else {
+      const term = debouncedSearchTerm.toLowerCase();
+      const filtered = products.filter(product =>
+        product.nombre?.toLowerCase().includes(term) ||
+        product.categoria?.toLowerCase().includes(term) ||
+        product.descripcion?.toLowerCase().includes(term)
+      );
+      setDisplayedProducts(filtered);
+    }
+  }, [products, debouncedSearchTerm]);
 
   // Función para manejar scroll infinito
   const handleScroll = useCallback(() => {

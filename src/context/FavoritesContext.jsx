@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import { collection, addDoc, query, where, getDocs, deleteDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const FavoritesContext = createContext();
 
@@ -103,6 +104,35 @@ export function FavoritesProvider({ children }) {
     return favorites.some(item => item.id === productId);
   };
 
+  const exportFavorites = () => {
+    const data = {
+      favorites: favorites.map(item => ({
+        id: item.id,
+        nombre: item.nombre,
+        precio: item.precio,
+        imagen: item.imagen,
+        categoria: item.categoria
+      })),
+      exportedAt: new Date().toISOString(),
+      userId: user?.uid
+    };
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `wishlist-${user?.uid || 'anon'}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const shareFavorites = () => {
+    const ids = favorites.map(item => item.id).join(',');
+    const shareUrl = `/shop?favorites=${ids}`;
+    navigator.clipboard.writeText(window.location.origin + shareUrl);
+    alert('URL de wishlist copiada al portapapeles');
+  };
+
   const getFavoritesCount = () => {
     return favorites.length;
   };
@@ -115,7 +145,9 @@ export function FavoritesProvider({ children }) {
         addToFavorites,
         removeFromFavorites,
         isFavorite,
-        getFavoritesCount
+        getFavoritesCount,
+        exportFavorites,
+        shareFavorites
       }}
     >
       {children}

@@ -287,6 +287,29 @@ export const validatePhone = (phone) => {
   return { isValid: true, message: '' };
 };
 
+/**
+ * Valida una reseña
+ * @param {number} rating - Rating de 1 a 5
+ * @param {string} comment - Comentario de la reseña
+ * @returns {object} - { isValid: boolean, message: string }
+ */
+export const validateReview = (rating, comment) => {
+  if (!rating || rating < 1 || rating > 5) {
+    return { isValid: false, message: 'El rating debe ser entre 1 y 5' };
+  }
+
+  if (!comment || comment.trim().length < 10 || comment.trim().length > 500) {
+    return { isValid: false, message: 'El comentario debe tener entre 10 y 500 caracteres' };
+  }
+
+  const sanitizedComment = sanitizeText(comment);
+  if (sanitizedComment.length !== comment.trim().length) {
+    return { isValid: false, message: 'El comentario contiene caracteres no permitidos' };
+  }
+
+  return { isValid: true, message: '' };
+};
+
 export default {
   validateEmail,
   validatePassword,
@@ -300,4 +323,5 @@ export default {
   sanitizeText,
   validateImageFile,
   validatePhone,
+  validateReview,
 };

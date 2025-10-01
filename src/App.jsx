@@ -1,16 +1,18 @@
 // src/App.jsx
-import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import React, { Suspense, lazy, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { FavoritesProvider } from "./context/FavoritesContext";
 import useCreateUserDoc from "./hooks/useCreateUserDoc";
+import { useAnalytics } from "./hooks/useAnalytics";
+import { performanceMonitor } from "./utils/performanceMonitor";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ToastContainer from "./components/ToastContainer";
 import Chatbot from "./components/Chatbot";
-
 
 // Lazy loading de componentes para mejor rendimiento
 const Admin = lazy(() => import("./pages/Admin"));
@@ -25,30 +27,42 @@ const AdminUsers = lazy(() => import("./pages/AdminUsers"));
 const Favorites = lazy(() => import("./pages/Favorites"));
 const Start = lazy(() => import("./pages/Start"));
 const Shop = lazy(() => import("./pages/Shop"));
+const ProductDetail = lazy(() => import("./pages/ProductDetail"));
+const ProductComparison = lazy(() => import("./pages/ProductComparison"));
+const Orders = lazy(() => import("./pages/Orders"));
 
-// Componente interno que usa los hooks
 function AppContent() {
   useCreateUserDoc();
+  const location = useLocation();
+  const analytics = useAnalytics();
+
+  useEffect(() => {
+    if (analytics && analytics.trackPageView) {
+      analytics.trackPageView(location.pathname);
+    }
+  }, [location.pathname, analytics]);
 
   return (
-    <Router>
-      <Suspense fallback={<LoadingSpinner />}>
-        <Chatbot />
-        <Routes>
-          <Route path="/" element={<Start />} />
-          <Route path="/start" element={<Start />} />
-          <Route path="/login" element={<Login />} />
+    <Suspense fallback={<LoadingSpinner />}>
+      <Chatbot />
+      <Routes>
+        <Route path="/" element={<Start />} />
+        <Route path="/start" element={<Start />} />
+        <Route path="/login" element={<Login />} />
 
-          {/* Resto de la app con Navbar */}
-          <Route
-            path="/*"
-            element={
-              <>
-                <Navbar />
-                <main style={{ minHeight: 'calc(100vh - 70px)', paddingTop: '70px' }}>
+        {/* Resto de la app con Navbar */}
+        <Route
+          path="/*"
+          element={
+            <>
+              <Navbar />
+              <main style={{ minHeight: 'calc(100vh - 70px)', paddingTop: '70px' }}>
+                <ErrorBoundary>
                   <Routes>
-                        <Route path="/home" element={<Navigate to="/shop" replace />} />
+                    <Route path="/home" element={<Navigate to="/shop" replace />} />
                     <Route path="/shop" element={<Shop />} />
+                    <Route path="/product/:id" element={<ProductDetail />} />
+                    <Route path="/compare/:handles" element={<ProductComparison />} />
 
                     {/* Rutas que requieren autenticación */}
                     <Route
@@ -80,6 +94,14 @@ function AppContent() {
                       element={
                         <ProtectedRoute>
                           <Favorites />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/orders"
+                      element={
+                        <ProtectedRoute>
+                          <Orders />
                         </ProtectedRoute>
                       }
                     />
@@ -118,25 +140,27 @@ function AppContent() {
                       }
                     />
                   </Routes>
-                </main>
-              </>
-            }
-          />
-        </Routes>
-      </Suspense>
-    </Router>
+                </ErrorBoundary>
+              </main>
+            </>
+          }
+        />
+      </Routes>
+    </Suspense>
   );
 }
 
 export default function App() {
   return (
-    <AuthProvider>
-      <CartProvider>
-        <FavoritesProvider>
-          <ToastContainer />
-          <AppContent />
-        </FavoritesProvider>
-      </CartProvider>
-    </AuthProvider>
+    <Router>
+      <AuthProvider>
+        <CartProvider>
+          <FavoritesProvider>
+            <ToastContainer />
+            <AppContent />
+          </FavoritesProvider>
+        </CartProvider>
+      </AuthProvider>
+    </Router>
   );
 }

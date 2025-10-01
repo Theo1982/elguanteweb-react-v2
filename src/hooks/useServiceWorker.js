@@ -1,5 +1,7 @@
 // src/hooks/useServiceWorker.js
 import { useState, useEffect } from 'react';
+import { getMessaging, isSupported, getToken, onMessage } from 'firebase/messaging';
+import { useToast } from './useToast';
 
 export const useServiceWorker = () => {
   const [isSupported, setIsSupported] = useState(false);
@@ -16,6 +18,36 @@ export const useServiceWorker = () => {
     } else {
       console.log('Service Workers no soportados en este navegador');
     }
+  }, []);
+
+  useEffect(() => {
+    const setupMessaging = async () => {
+      if (isSupported()) {
+        const messaging = getMessaging();
+        const { addToast } = useToast();
+
+        // Request permission
+        try {
+          const permission = await Notification.requestPermission();
+          if (permission === 'granted') {
+            const token = await getToken(messaging, {
+              vapidKey: import.meta.env.VITE_FCM_VAPID_KEY,
+            });
+            console.log('FCM Token:', token);
+          }
+        } catch (error) {
+          console.error('Error getting FCM token:', error);
+        }
+
+        // Listen for messages
+        onMessage(messaging, (payload) => {
+          console.log('Foreground message:', payload);
+          addToast(payload.notification.body, 'info');
+        });
+      }
+    };
+
+    setupMessaging();
   }, []);
 
   const registerServiceWorker = async () => {

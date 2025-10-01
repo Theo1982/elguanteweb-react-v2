@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
+import { useAnalytics } from '../hooks/useAnalytics';
 import '../styles/Chatbot.css';
 
 const Chatbot = () => {
@@ -11,25 +12,35 @@ const Chatbot = () => {
   const [input, setInput] = useState('');
   const [productos, setProductos] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
+  const { trackEvent } = useAnalytics();
 
   useEffect(() => {
-    const fetchProductos = async () => {
-      try {
-        const q = query(collection(db, 'productos'), where('activo', '==', true));
-        const snapshot = await getDocs(q);
+    const q = query(collection(db, 'productos'), where('activo', '==', true));
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
         const productsData = snapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
         setProductos(productsData);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      } finally {
         setLoadingProducts(false);
+        // Cache for offline
+        localStorage.setItem('products', JSON.stringify(productsData));
+      },
+      (error) => {
+        console.error('Error fetching products:', error);
+        setLoadingProducts(false);
+        // Offline fallback
+        const cached = localStorage.getItem('products');
+        if (cached) {
+          setProductos(JSON.parse(cached));
+        }
       }
-    };
+    );
 
-    fetchProductos();
+    return () => unsubscribe();
   }, []);
 
   const toggleChat = () => {
@@ -41,6 +52,7 @@ const Chatbot = () => {
 
     const userMessage = { text: input, sender: 'user' };
     setMessages(prev => [...prev, userMessage]);
+    trackEvent('chat_message_sent', { message: input });
 
     const botResponse = getBotResponse(input.toLowerCase());
     setTimeout(() => {
@@ -71,6 +83,18 @@ const Chatbot = () => {
     {
       keywords: ['precio', 'cuanto cuesta', 'costo'],
       response: 'Por favor dime el nombre del producto y te diré el precio exacto.'
+    },
+    {
+      keywords: ['reseñas', 'opiniones', 'reviews'],
+      response: '⭐ Puedes ver las reseñas de un producto en su página de detalle. Visita /product/[id] para ver opiniones de otros clientes.'
+    },
+    {
+      keywords: ['comparar', 'comparacion'],
+      response: '🔄 Para comparar productos, usa la página de comparación: /compare/handle1/handle2. Dime dos nombres de productos para ayudarte.'
+    },
+    {
+      keywords: ['nivel', 'puntos', 'descuento'],
+      response: '📈 Tu nivel de usuario determina descuentos. Revisa tu perfil en /profile para ver tu nivel actual y puntos acumulados.'
     },
     {
       keywords: ['envio', 'entrega', 'costo envio'],

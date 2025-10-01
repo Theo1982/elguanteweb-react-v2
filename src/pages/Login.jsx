@@ -69,6 +69,7 @@ export default function Login() {
   };
 
   const handleSubmit = async (e) => {
+    console.log('📝 Form submitted - Mode:', isRegister ? 'register' : 'login', 'Email:', email);
     e.preventDefault();
     
     if (!validateForm()) return;
@@ -83,6 +84,7 @@ export default function Login() {
         success("¡Bienvenido de vuelta!");
       }
     } catch (err) {
+      console.error('📝 Submit error:', err);
       const message = handleError(err, isRegister ? 'registro' : 'login');
       showError(message);
     } finally {

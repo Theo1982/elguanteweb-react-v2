@@ -11,9 +11,9 @@ const app = express();
 
 // Middleware de seguridad
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://tu-dominio.com'] 
-    : ['http://localhost:5173', 'http://localhost:3000'],
+  origin: process.env.NODE_ENV === 'production'
+    ? ['https://tu-dominio.com']
+    : ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:3001'],
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -292,7 +292,7 @@ app.use((error, req, res, next) => {
 });
 
 // Manejo de rutas no encontradas
-app.use('*', (req, res) => {
+app.use((req, res) => {
   res.status(404).json({
     error: 'Endpoint no encontrado',
     path: req.originalUrl,

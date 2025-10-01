@@ -1,41 +1,25 @@
-# TODO: Fix Duplicated Product Cards and Make Chatbot Functional
+# TODO - Fix App Functionality
 
-## Steps to Complete:
+## Current Status
+- [x] Fixed backend/server.js: Implemented /create_preference endpoint with MercadoPago integration and demo mode.
+- [x] Fixed src/hooks/useReviews.js: Changed collection from 'reseñas' to 'reviews' for fetching and adding.
+- [x] Added loading state to Cart button in src/pages/Cart.jsx.
+- [x] Normalized product fields in src/hooks/useLazyProducts.js for local JSON fallback.
+- [x] Updated CORS in backend to include localhost:3001.
 
-1. **Update src/pages/Admin.jsx**
-   - In the `fetchProductos` function, after mapping the docs to productsData, add deduplication logic:
-     - Filter unique products by 'nombre': `const uniqueProducts = productsData.filter((p, index, arr) => arr.findIndex(q => q.nombre === p.nombre) === index);`
-     - Sort alphabetically: `uniqueProducts.sort((a, b) => a.nombre.localeCompare(b.nombre));`
-     - Set the state with `setProductos(uniqueProducts);`
-   - This ensures no duplicates in the admin CRUD table based on product name.
+## Pending Steps
+1. **Run Backend Server**: Execute `npm run backend` to start on port 3001 and verify health check at http://localhost:3001/health.
+2. **Run Frontend**: Execute `npm run dev` to start on port 5173 if not running.
+3. **Test Product Loading**: Launch browser to http://localhost:5173/shop, verify 270 products load without review errors.
+4. **Test Cart Flow**: Add product to cart, navigate to /cart, click "Proceder al Pago", verify loading state and redirect (demo mode if no token).
+5. **Test Payment Success**: Mock success redirect, verify cart clears, order saves to Firestore 'orders' collection.
+6. **Test Reviews**: Navigate to a ProductDetail page, add a review, verify it saves to 'reviews' collection and displays.
+7. **Test Full Navigation**: Test login, favorites, orders history, search, empty cart, error scenarios (no user, network fail).
+8. **Verify Database**: Check Firestore for products, orders, reviews; ensure local JSON fallback works if Firestore down.
+9. **Edge Cases**: Test rate limiting, invalid inputs, backend down (simulate by stopping server).
+10. **Performance/UX**: Check loading times, responsive design, toasts, service worker registration.
 
-2. **Update src/components/Chatbot.jsx**
-   - Add missing imports: `import React, { useState } from 'react';`
-   - Initialize states: `const [isOpen, setIsOpen] = useState(false);`, `const [messages, setMessages] = useState([]);`, `const [input, setInput] = useState('');`
-   - Implement `toggleChat`: `const toggleChat = () => setIsOpen(!isOpen);`
-   - Implement `handleKeyPress`: `const handleKeyPress = (e) => { if (e.key === 'Enter') handleSend(); };`
-   - Implement `handleSend`: 
-     - Add user message: `setMessages(prev => [...prev, { text: input, sender: 'user' }]);`
-     - Clear input: `setInput('');`
-     - Generate simple bot response based on keywords (e.g., if input includes 'producto' or 'shop', respond 'Puedes ver nuestros productos en la página de Shop.'; else '¡Hola! ¿En qué puedo ayudarte?';)
-     - Add bot message after a short delay: `setTimeout(() => setMessages(prev => [...prev, { text: botResponse, sender: 'bot' }]), 500);`
-   - Ensure the JSX uses these states and functions correctly.
-   - Add CSS classes for styling if needed, but assume existing.
+## Next Action
+Proceed with step 1: Start backend server.
 
-3. **Test the Changes**
-   - Run `npm run dev` to start the development server.
-   - Use browser to navigate to /admin (login if needed) and verify no duplicate products in the list.
-   - Navigate to /shop and confirm no duplicates there (already handled by hook).
-   - Open the chatbot (click floating button), send messages, and verify user/bot messages appear.
-
-4. **Run Unit Tests**
-   - Execute `npm test` to ensure no regressions in existing tests (e.g., ProductCard.test.jsx).
-
-5. **Update TODO.md**
-   - Mark completed steps as [x] after each.
-
-6. **Final Verification**
-   - If issues found, iterate on fixes.
-   - Commit changes if approved.
-
-Last updated: Current task resumption.
+Progress: 40% complete (core fixes done, testing pending).
