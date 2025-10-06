@@ -61,6 +61,7 @@ export function CartProvider({ children }) {
           imagen: product.imagen || '/img/placeholder.jpg',
           descripcion: product.descripcion || '',
           quantity: 1,
+          notes: '',
         };
 
         return [...prevCart, newItem];
@@ -68,15 +69,23 @@ export function CartProvider({ children }) {
     });
   };
 
-  const removeFromCart = (id) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  const removeFromCart = (id, variant) => {
+    setCart((prevCart) => prevCart.filter((item) => !(item.id === id && item.variant === variant)));
   };
 
-  const updateQuantity = (id, quantity) => {
+  const updateQuantity = (id, variant, quantity) => {
     const newQuantity = Math.max(1, Math.min(99, Number(quantity) || 1));
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
+        item.id === id && item.variant === variant ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
+  const updateNotes = (id, variant, notes) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.id === id && item.variant === variant ? { ...item, notes } : item
       )
     );
   };
@@ -104,12 +113,13 @@ export function CartProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ 
-        cart, 
+      value={{
+        cart,
         loading,
-        addToCart, 
-        removeFromCart, 
-        updateQuantity, 
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        updateNotes,
         clearCart,
         getCartTotal,
         getCartItemsCount,
