@@ -1,16 +1,17 @@
-// src/pages/Admin.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { db } from "../firebase";
+import { validatePrice, validateStock } from "../utils/validators";
 import "./Admin.css";
 import {
   collection,
-  getDocs,
   addDoc,
   updateDoc,
   deleteDoc,
   doc,
+  onSnapshot,
+  query,
 } from "firebase/firestore";
 
 export default function Admin() {
@@ -18,6 +19,8 @@ export default function Admin() {
   const { user, profile, loading } = useAuth();
 
   const [productos, setProductos] = useState([]);
+  const [filteredProductos, setFilteredProductos] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [nuevoProducto, setNuevoProducto] = useState({
     nombre: "",
     precio: "",
@@ -37,12 +40,13 @@ export default function Admin() {
     }
   }, [user, profile, loading, navigate]);
 
-  // Cargar productos
-  const fetchProductos = async () => {
+  // Cargar productos real-time
+  useEffect(() => {
     setCargandoProductos(true);
-    try {
-      const q = await getDocs(collection(db, "productos"));
-      let items = q.docs.map((d) => ({ id: d.id, ...d.data() }));
+    const q = query(collection(db, "productos"));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      let items = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
 
       // Remove duplicates based on nombre (assuming product names are unique)
       items = items.filter((item, index, self) =>
@@ -51,16 +55,22 @@ export default function Admin() {
 
       items.sort((a, b) => a.nombre.localeCompare(b.nombre));
       setProductos(items);
-    } catch (err) {
-      console.error("Error fetching productos:", err);
-    } finally {
       setCargandoProductos(false);
-    }
-  };
+    }, (err) => {
+      console.error("Error fetching productos:", err);
+      setCargandoProductos(false);
+    });
 
-  useEffect(() => {
-    fetchProductos();
+    return () => unsubscribe();
   }, []);
+
+  // Filter products based on search
+  useEffect(() => {
+    const filtered = productos.filter(p => 
+      p.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProductos(filtered);
+  }, [productos, searchTerm]);
 
   const handleChange = (e) => {
     setNuevoProducto({ ...nuevoProducto, [e.target.name]: e.target.value });
@@ -70,42 +80,69 @@ export default function Admin() {
     e.preventDefault();
     if (!nuevoProducto.nombre || !nuevoProducto.precio) return;
 
+    const precioNum = Number(nuevoProducto.precio);
+    const stockNum = Number(nuevoProducto.stock) || 0;
+
+    // Validation
+    const priceValidation = validatePrice(precioNum);
+    if (!priceValidation.isValid) {
+      alert(priceValidation.message || 'Precio debe ser un número positivo mayor a 0');
+      return;
+    }
+    const stockValidation = validateStock(stockNum);
+    if (!stockValidation.isValid) {
+      alert(stockValidation.message || 'Stock debe ser un número no negativo');
+      return;
+    }
+
     await addDoc(collection(db, "productos"), {
       nombre: nuevoProducto.nombre,
-      precio: Number(nuevoProducto.precio),
+      precio: precioNum,
       imagen: nuevoProducto.imagen || "",
-      stock: Number(nuevoProducto.stock) || 0,
+      stock: stockNum,
       categoria: nuevoProducto.categoria || "",
       descripcion: nuevoProducto.descripcion || "",
     });
 
     setNuevoProducto({ nombre: "", precio: "", imagen: "", stock: "", categoria: "", descripcion: "" });
-    fetchProductos();
   };
 
   const handleEdit = async (e) => {
     e.preventDefault();
     if (!editandoId) return;
 
+    const precioNum = Number(nuevoProducto.precio);
+    const stockNum = Number(nuevoProducto.stock) || 0;
+
+    // Validation
+    const priceValidation = validatePrice(precioNum);
+    if (!priceValidation.isValid) {
+      alert(priceValidation.message || 'Precio debe ser un número positivo mayor a 0');
+      return;
+    }
+    const stockValidation = validateStock(stockNum);
+    if (!stockValidation.isValid) {
+      alert(stockValidation.message || 'Stock debe ser un número no negativo');
+      return;
+    }
+
     const ref = doc(db, "productos", editandoId);
     await updateDoc(ref, {
       nombre: nuevoProducto.nombre,
-      precio: Number(nuevoProducto.precio),
+      precio: precioNum,
       imagen: nuevoProducto.imagen || "",
-      stock: Number(nuevoProducto.stock) || 0,
+      stock: stockNum,
       categoria: nuevoProducto.categoria || "",
       descripcion: nuevoProducto.descripcion || "",
     });
 
     setNuevoProducto({ nombre: "", precio: "", imagen: "", stock: "", categoria: "", descripcion: "" });
     setEditandoId(null);
-    fetchProductos();
   };
 
   const handleDelete = async (id) => {
     if (!confirm("¿Eliminar producto?")) return;
     await deleteDoc(doc(db, "productos", id));
-    fetchProductos();
   };
 
   if (loading || cargandoProductos) {
@@ -116,6 +153,16 @@ export default function Admin() {
     <div className="admin-container">
       <h1>⚙️ Panel de Administración</h1>
       <p>Aquí el administrador puede gestionar los productos.</p>
+
+      <div className="search-section">
+        <input 
+          type="text" 
+          placeholder="Buscar productos por nombre..." 
+          value={searchTerm} 
+          onChange={(e) => setSearchTerm(e.target.value)} 
+          className="search-input"
+        />
+      </div>
 
       <form onSubmit={editandoId ? handleEdit : handleAdd} className="admin-form">
         <input name="nombre" placeholder="Nombre" value={nuevoProducto.nombre} onChange={handleChange} required className="admin-input" />
@@ -146,7 +193,7 @@ export default function Admin() {
           </tr>
         </thead>
         <tbody>
-          {productos.map((p) => (
+          {filteredProductos.map((p) => (
             <tr key={p.id}>
               <td className="admin-td">{p.nombre}</td>
               <td className="admin-td">${p.precio}</td>
@@ -168,4 +215,3 @@ export default function Admin() {
     </div>
   );
 }
-

@@ -58,16 +58,16 @@ const Navbar = memo(function Navbar() {
               <span aria-hidden="true">🛍️</span>
               <span>Tienda</span>
             </Link>
+            <Link
+              to="/cart"
+              className={`navbar-link ${isActive("/cart") ? "active" : ""}`}
+              aria-label={`Carrito de compras${!cartLoading ? `. ${getCartItemsCount()} productos` : ''}`}
+            >
+              <span aria-hidden="true">🛒</span>
+              <span>Carrito {!cartLoading && `(${getCartItemsCount()})`}</span>
+            </Link>
             {user && (
               <>
-                <Link
-                  to="/cart"
-                  className={`navbar-link ${isActive("/cart") ? "active" : ""}`}
-                  aria-label={`Carrito de compras${!cartLoading ? `. ${getCartItemsCount()} productos` : ''}`}
-                >
-                  <span aria-hidden="true">🛒</span>
-                  <span>Carrito {!cartLoading && `(${getCartItemsCount()})`}</span>
-                </Link>
                 <Link to="/history" className={`navbar-link ${isActive("/history") ? "active" : ""}`}>
                   <span aria-hidden="true">📜</span>
                   <span>Historial</span>
@@ -158,12 +158,12 @@ const Navbar = memo(function Navbar() {
             <span aria-hidden="true">🛍️</span>
             <span>Tienda</span>
           </Link>
+          <Link to="/cart" className={`navbar-link navbar-mobile-link ${isActive("/cart") ? "active" : ""}`}>
+            <span aria-hidden="true">🛒</span>
+            <span>Carrito {!cartLoading && `(${getCartItemsCount()})`}</span>
+          </Link>
           {user && (
             <>
-              <Link to="/cart" className={`navbar-link navbar-mobile-link ${isActive("/cart") ? "active" : ""}`}>
-                <span aria-hidden="true">🛒</span>
-                <span>Carrito {!cartLoading && `(${getCartItemsCount()})`}</span>
-              </Link>
               <Link to="/history" className={`navbar-link navbar-mobile-link ${isActive("/history") ? "active" : ""}`}>
                 <span aria-hidden="true">📜</span>
                 <span>Historial</span>

@@ -137,6 +137,22 @@
   margin: 5px 0;
 }
 
+/* Tablet styles */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 6px 10px;
+  }
+
+  .navbar-logo img {
+    width: 100px;
+  }
+
+  .navbar-link {
+    font-size: 13px;
+    padding: 4px 6px;
+  }
+}
+
 /* Mobile styles */
 @media (max-width: 768px) {
   .navbar-menu {
@@ -153,5 +169,19 @@
 
   .navbar-mobile-menu.open {
     display: flex;
+  }
+
+  .navbar {
+    padding: 4px 6px;
+    min-height: 50px;
+  }
+
+  .navbar-logo img {
+    width: 80px;
+  }
+
+  .navbar-mobile-link {
+    font-size: 14px;
+    padding: 8px 0;
   }
 }

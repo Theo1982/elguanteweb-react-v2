@@ -1,9 +1,10 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const ProtectedRoute = ({ children, requiredRole = null, redirectTo = '/login' }) => {
   const { user, profile, loading } = useAuth();
+  const location = useLocation();
 
   // Mostrar loading mientras se verifica la autenticación
   if (loading) {
@@ -19,8 +20,8 @@ const ProtectedRoute = ({ children, requiredRole = null, redirectTo = '/login' }
     );
   }
 
-  // Si no hay usuario, redirigir al login
-  if (!user) {
+  // Si no hay usuario, redirigir al login, except for cart and success for testing
+  if (!user && !location.pathname.startsWith('/cart') && !location.pathname.startsWith('/success')) {
     return <Navigate to={redirectTo} replace />;
   }
 

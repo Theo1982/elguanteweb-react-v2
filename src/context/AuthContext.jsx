@@ -59,9 +59,11 @@ export function AuthProvider({ children }) {
 
   // Login
   const login = async (email, password) => {
+    console.log('🔐 Login attempted with email:', email);
     try {
       setError(null);
       const result = await signInWithEmailAndPassword(auth, email, password);
+      console.log('✅ Login successful for user:', result.user.uid);
       
       // Actualizar último acceso
       if (result.user) {
@@ -70,6 +72,7 @@ export function AuthProvider({ children }) {
       
       return result;
     } catch (error) {
+      console.error('❌ Login error:', error.code, error.message);
       setError(error);
       throw error;
     }

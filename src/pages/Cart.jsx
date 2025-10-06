@@ -1,15 +1,17 @@
 // src/pages/Cart.jsx
 import React, { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
+import useToast from "../hooks/useToast";
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext"; 
 import { getUserLevel } from "../utils/getUserLevel";
 
 export default function Cart() {
-  const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
+  const { cart, removeFromCart, updateQuantity, updateNotes, clearCart } = useCart();
   const { user } = useAuth();
   const [nivel, setNivel] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const total = cart.reduce(
     (acc, product) => acc + Number(product.precio) * product.quantity,
@@ -30,49 +32,51 @@ export default function Cart() {
     fetchNivel();
   }, [user]);
 
-  const handleCheckout = async (status = "success") => {
+  const handleCheckout = async () => {
+    if (!user) {
+      addToast("Debes estar logueado para pagar", "error");
+      return;
+    }
+
+    setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      window.location.href = `/${status}?points=${Math.floor(totalConDescuento / 1000)}&level=${nivel?.nivel || "Sin nivel"}`;
+      const response = await fetch("http://localhost:3001/create_preference", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: cart.map(item => ({
+            title: item.nombre,
+            unit_price: Number(item.precio),
+            quantity: item.quantity,
+            currency_id: "ARS",
+            description: item.notes || ''
+          })),
+          usuarioId: user.uid,
+          metadata: { total: totalConDescuento }
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        addToast(errorData.details || "Error al crear pago", "error");
+        return;
+      }
+
+      const data = await response.json();
+      if (data.init_point) {
+        window.location.href = data.init_point;
+      } else {
+        addToast("Error: No se pudo generar el pago", "error");
+      }
     } catch (error) {
-      alert("Error en la simulación de pago.");
+      console.error("Error en checkout:", error);
+      addToast("Error de conexión al procesar pago", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const status = params.get("status");
-
-    if (status === "success" && cart.length > 0) {
-      (async () => {
-        try {
-          const usuarioId = user?.uid || "guest";
-
-          await addDoc(collection(db, "ordenes"), {
-            productos: cart,
-            total: totalConDescuento,
-            fecha: serverTimestamp(),
-            estado: "aprobado",
-            usuario: usuarioId,
-          });
-
-          const puntos = Math.floor(totalConDescuento / 1000);
-
-          if (puntos > 0 && usuarioId !== "guest") {
-            await addDoc(collection(db, "puntos"), {
-              usuario: usuarioId,
-              valor: puntos,
-              fecha: serverTimestamp(),
-            });
-          }
-
-          clearCart();
-        } catch (e) {
-          console.error("❌ Error guardando orden/puntos:", e);
-        }
-      })();
-    }
-  }, [cart, totalConDescuento, clearCart, user]);
+  // Remove simulated order saving - handle in Success or webhook
 
   if (cart.length === 0) {
     return <p style={{ padding: "20px" }}>🛒 Tu carrito está vacío.</p>;
@@ -108,7 +112,7 @@ Los puntos expiran a los 60 días."
 
       {cart.map((product) => (
         <div
-          key={product.id}
+          key={`${product.id}-${product.variant || ''}`}
           style={{
             borderBottom: "1px solid #ddd",
             padding: "10px",
@@ -126,6 +130,16 @@ Los puntos expiran a los 60 días."
             <h3>{product.nombre}</h3>
             <p>Precio unitario: ${product.precio}</p>
             <p>Subtotal: ${Number(product.precio) * product.quantity}</p>
+            <div style={{ marginTop: '10px' }}>
+              <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>Detalles del producto</label>
+              <textarea
+                value={product.notes || ''}
+                onChange={(e) => updateNotes(product.id, product.variant || '', e.target.value)}
+                placeholder="Aclaraciones específicas sobre este producto..."
+                rows="3"
+                style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '4px', resize: 'vertical' }}
+              />
+            </div>
           </div>
           <div>
             <input
@@ -134,7 +148,7 @@ Los puntos expiran a los 60 días."
               min="1"
               style={{ width: "60px" }}
               onChange={(e) =>
-                updateQuantity(product.id, Number(e.target.value))
+                updateQuantity(product.id, product.variant || '', Number(e.target.value))
               }
             />
           </div>
@@ -148,7 +162,7 @@ Los puntos expiran a los 60 días."
               borderRadius: "6px",
               cursor: "pointer",
             }}
-            onClick={() => removeFromCart(product.id)}
+            onClick={() => removeFromCart(product.id, product.variant || '')}
           >
             ❌ Eliminar
           </button>
@@ -170,11 +184,13 @@ Los puntos expiran a los 60 días."
             border: "none",
             padding: "10px 15px",
             borderRadius: "8px",
-            cursor: "pointer",
+            cursor: loading ? "not-allowed" : "pointer",
+            opacity: loading ? 0.6 : 1,
           }}
-          onClick={() => handleCheckout("success")}
+          onClick={handleCheckout}
+          disabled={loading}
         >
-          ✅ Proceder al Pago (Éxito)
+          {loading ? "⏳ Procesando..." : "✅ Proceder al Pago"}
         </button>
       </div>
     </div>
